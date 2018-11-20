@@ -21,6 +21,7 @@ class QTreeView;
 class QCheckBox;
 class QComboBox;
 class QItemSelection;
+class QRadioButton;
 class ColorSwatchWidget;
 class CelestiaCore;
 class InfoPanel;
@@ -54,6 +55,11 @@ Q_OBJECT
 
     SolarSystemTreeModel* solarSystemModel{nullptr};
     QTreeView* treeView{nullptr};
+
+    QRadioButton* planetsButton{nullptr};
+    QRadioButton* asteroidsButton{nullptr};
+    QRadioButton* spacecraftsButton{nullptr};
+    QRadioButton* cometsButton{nullptr};
 
     QCheckBox* groupCheckBox{nullptr};
 

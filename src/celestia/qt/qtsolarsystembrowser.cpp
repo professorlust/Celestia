@@ -24,6 +24,7 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QLabel>
+#include <QRadioButton>
 #include <vector>
 #ifdef TEST_MODEL
 #include <QAbstractItemModelTester>
@@ -694,6 +695,38 @@ SolarSystemBrowser::SolarSystemBrowser(CelestiaCore* _appCore, QWidget* parent, 
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget(treeView);
 
+    // Predefined filters
+    QGroupBox* objGroup = new QGroupBox();
+    QGridLayout* objGroupLayout = new QGridLayout();
+
+    // Buttons to select filtering criterion for objects
+    planetsButton = new QRadioButton(_("Planets, Moons, etc"));
+    connect(planetsButton, SIGNAL(clicked()), this, SLOT(slotRefreshTree()));
+    objGroupLayout->addWidget(planetsButton, 0, 0);
+
+    asteroidsButton = new QRadioButton(_("Asteroids"));
+    connect(asteroidsButton, SIGNAL(clicked()), this, SLOT(slotRefreshTree()));
+    objGroupLayout->addWidget(asteroidsButton, 0, 1);
+
+    spacecraftsButton = new QRadioButton(_("Spacecrafts"));
+    connect(spacecraftsButton, SIGNAL(clicked()), this, SLOT(slotRefreshTree()));
+    objGroupLayout->addWidget(spacecraftsButton, 1, 0);
+
+    cometsButton = new QRadioButton(_("Comets"));
+    connect(cometsButton, SIGNAL(clicked()), this, SLOT(slotRefreshTree()));
+    objGroupLayout->addWidget(cometsButton, 1, 1);
+
+    objGroup->setLayout(objGroupLayout);
+    layout->addWidget(objGroup);
+
+    // Additional filtering controls
+    QGroupBox* filterGroup = new QGroupBox(_("Filter"));
+    QGridLayout* filterGroupLayout = new QGridLayout();
+
+    filterGroup->setLayout(filterGroupLayout);
+    layout->addWidget(filterGroup);
+    // End filtering controls
+
     QPushButton* refreshButton = new QPushButton(_("Refresh"));
     connect(refreshButton, SIGNAL(clicked()), this, SLOT(slotRefreshTree()));
     layout->addWidget(refreshButton);
@@ -701,7 +734,6 @@ SolarSystemBrowser::SolarSystemBrowser(CelestiaCore* _appCore, QWidget* parent, 
     groupCheckBox = new QCheckBox(_("Group objects by class"));
     connect(groupCheckBox, SIGNAL(clicked()), this, SLOT(slotRefreshTree()));
     layout->addWidget(groupCheckBox);
-
 
     // Controls for marking selected objects
     QGroupBox* markGroup = new QGroupBox(_("Markers"));
